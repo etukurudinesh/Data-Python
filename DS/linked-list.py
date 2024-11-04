@@ -5,6 +5,9 @@ class Node:
         self.data=data
         self.next=next
 
+    def __str__(self):
+        return str(id(self))
+
 class LinkedList:
      
     def __init__(self):
@@ -50,9 +53,13 @@ class LinkedList:
         Input: head node
         Return: None
         """
+        data_width = 10
+        address_width = 6
+
         temp = head
+        print(f'{"Data":<{data_width}} {"Memory Address":<{address_width}}')
         while(temp):
-            print(temp.data)
+            print(f'{temp.data:<{data_width}} {id(temp):<{address_width}}')
             temp = temp.next
 
     def check_element(self, head: Node, element: int) -> bool:
@@ -68,11 +75,23 @@ class LinkedList:
             temp=temp.next
         return False
     
+    def insert_head(self, head: Node, value: int) -> Node:
+        """
+        Summary:
+        Input:
+        Return Value:
+        Time-complexity: O(1)
+        """
+        if not head:
+            return Node(value, None)
+        temp = Node(value, head)
+        return temp
+
     def insert_end(self, head: Node, element: int) -> Node:
         """
         
         """
-        temp=Node(element)
+        temp=Node(element, None)
         if not head:
             return temp
         cur=head
@@ -80,7 +99,54 @@ class LinkedList:
             cur=cur.next
         cur.next=temp
         return head
+
+    def insert_before_element(self, head: Node, element: int, value: int) -> Node:
+        """
+        Summary:
+        Input:
+        Return value:
+        """
+        if not head:
+            return Node(value, None)
+        if element==head.data:
+            return self.insert_head(head, value)
+        cur=head
+        prev=None
+        while(cur):
+            #[10, 20, 30]
+            if cur.next.data==element:
+                temp=Node(value, None)
+                temp.next = cur.next 
+                cur.next = temp
+                break
+            cur=cur.next
+        return head
     
+    def insert_index(self, head: Node, index: int, value: int) -> Node:
+        """
+        Summary:
+        Input:
+        Return value:
+        """
+        # if index is 1 then insert in head
+        if index == 1:
+            return self.insert_head(head, value)
+        # if there is no linked list return none
+        if not head:
+            return None
+        cur=head
+        pos=1
+        prev=None
+        while(cur):
+            if pos == index-1:
+                temp=Node(value, None)
+                temp.next = cur.next 
+                cur.next = temp
+                break
+            cur=cur.next
+            pos+=1
+        return head
+
     def delete_head(self, head: Node) -> Node:
         if not head or not head.next:
             return None
@@ -95,19 +161,6 @@ class LinkedList:
             cur=cur.next
         cur.next = None
         return head
-
-    #def delete_index(self, head: Node, k: int) -> Node:
-    #   if k==1:
-    #        return self.delete_head(head)
-    #    if k<=0:
-    #        return head
-    #    if not head:
-    #        return None
-    #    cur=head # 5
-    #    for i in range(k-1):
-    #        cur=cur.next
-    #    cur.next=cur.next.next
-    #    return head
 
     def delete_index(self, head: Node, k: int) -> Node:
         """
@@ -162,12 +215,9 @@ class LinkedList:
 if __name__ == '__main__':
     
     arr: int=[5, 6, 7, 9, 14, 20, 28]
+    arr2:int = [] 
     ll: LinkedList=LinkedList()
     head: Node=ll.list2ll(arr)
-    head: Node=ll.delete_index(head, 2)
-    ll.traverse(head)
-
-    
-    
-    
-    
+    head: Node=ll.insert_index(head, index=2, value=20)
+    head: Node=ll.insert_before_element(head, element=9, value=24)
+    ll.traverse(head)    
