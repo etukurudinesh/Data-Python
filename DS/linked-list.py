@@ -136,7 +136,6 @@ class LinkedList:
             return None
         cur=head
         pos=1
-        prev=None
         while(cur):
             if pos == index-1:
                 temp=Node(value, None)
