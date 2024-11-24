@@ -53,13 +53,14 @@ class LinkedList:
         Input: head node
         Return: None
         """
-        data_width = 10
-        address_width = 6
+        data_width = 8
+        address_width = 15
 
         temp = head
-        print(f'{"Data":<{data_width}} {"Memory Address":<{address_width}}')
+        print(f'{"Data":<{data_width}} | {"Memory Address":<{address_width}}')
+        print(f"{'-':-^31}")
         while(temp):
-            print(f'{temp.data:<{data_width}} {id(temp):<{address_width}}')
+            print(f'{temp.data:<{data_width}} | {id(temp):<{address_width}}')
             temp = temp.next
 
     def check_element(self, head: Node, element: int) -> bool:
@@ -211,6 +212,19 @@ class LinkedList:
             prev=cur
             cur=cur.next
 
+    def traverse_recursion(self, head: Node) -> Node:
+        if not head:
+            return
+        self.traverse_recursion(head.next)
+        print(head.data)
+
+    def find_ll_recursion(self, head: Node, element: int) -> bool:
+        if not head:
+            return False
+        if head.data==element:
+            return True
+        return self.search_ll_recursion(head.next, element)
+
 if __name__ == '__main__':
     
     arr: int=[5, 6, 7, 9, 14, 20, 28]
@@ -219,4 +233,4 @@ if __name__ == '__main__':
     head: Node=ll.list2ll(arr)
     head: Node=ll.insert_index(head, index=2, value=20)
     head: Node=ll.insert_before_element(head, element=9, value=24)
-    ll.traverse(head)    
+    ll.traverse(head) 
